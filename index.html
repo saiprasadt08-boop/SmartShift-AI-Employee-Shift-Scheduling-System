@@ -1,0 +1,1002 @@
+!DOCTYPE html>
+<htm<l lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartShift – Employee Shift Scheduling System</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Chart.js for Workforce Analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="app-container">
+  <!-- Dark Navy Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="brand-wrapper">
+        <div class="brand-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+            <path d="M8 14h.01"></path>
+            <path d="M12 14h.01"></path>
+            <path d="M16 14h.01"></path>
+            <path d="M8 18h.01"></path>
+            <path d="M12 18h.01"></path>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-title">SmartShift</div>
+          <div class="brand-subtitle">AI Workforce Scheduler</div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-title">Core Operations</div>
+      <a class="nav-item active" data-view="dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        <span>Dashboard</span>
+      </a>
+      <a class="nav-item" data-view="generate">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg>
+        <span>Generate Schedule</span>
+      </a>
+      <a class="nav-item" data-view="calendar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        <span>Weekly Calendar</span>
+      </a>
+      <a class="nav-item" data-view="conflicts">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+        <span>Conflicts & Alerts</span>
+        <span class="badge" id="sidebar-conflict-count">0</span>
+      </a>
+
+      <div class="nav-section-title">Workforce Setup</div>
+      <a class="nav-item" data-view="employees">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        <span>Employees</span>
+      </a>
+      <a class="nav-item" data-view="shifts">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        <span>Shift Management</span>
+      </a>
+      <a class="nav-item" data-view="availability">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+        <span>Availability</span>
+      </a>
+
+      <div class="nav-section-title">Intelligence & Tools</div>
+      <a class="nav-item" data-view="analytics">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+        <span>Analytics & Reports</span>
+      </a>
+      <a class="nav-item" data-view="algorithms">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+        <span>Algorithm Deep Dive</span>
+      </a>
+      <a class="nav-item" data-view="tests">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+        <span>Test Suite (13 Tests)</span>
+      </a>
+      <a class="nav-item" data-view="settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        <span>Settings</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div>Engine Status: <strong style="color:#10b981;">Optimized</strong></div>
+      <div>Local Storage Active</div>
+    </div>
+  </aside>
+
+  <!-- Main Content Wrapper -->
+  <main class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-left">
+        <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Toggle Navigation">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+        <div class="page-header-text">
+          <h1 id="header-page-title">Executive Dashboard</h1>
+          <p id="header-page-subtitle">Real-time workforce shift scheduling overview & intelligence</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-secondary btn-sm" id="btn-reset-demo" title="Reset to standard 12 employees & 3 default shifts">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg>
+          Reset Demo Data
+        </button>
+        <button class="btn btn-primary" id="btn-quick-generate">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          Generate Schedule
+        </button>
+      </div>
+    </header>
+
+    <div class="content-area">
+
+      <!-- ================= 1. DASHBOARD VIEW ================= -->
+      <section class="view-section active" id="view-dashboard">
+        <!-- Metric Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Total Employees</span>
+              <div class="stat-icon indigo">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+              </div>
+            </div>
+            <div class="stat-value" id="dash-total-emp">12</div>
+            <div class="stat-subtext" id="dash-active-emp">12 Active Workforce</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Total Shifts</span>
+              <div class="stat-icon amber">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              </div>
+            </div>
+            <div class="stat-value" id="dash-total-shifts">21</div>
+            <div class="stat-subtext" id="dash-shifts-subtext">Across 7 days</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Employees Scheduled</span>
+              <div class="stat-icon emerald">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+              </div>
+            </div>
+            <div class="stat-value" id="dash-emp-scheduled">12</div>
+            <div class="stat-subtext">100% staff utilization</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Unfilled Shifts</span>
+              <div class="stat-icon rose">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+              </div>
+            </div>
+            <div class="stat-value" id="dash-unfilled-shifts">0</div>
+            <div class="stat-subtext" id="dash-unfilled-subtext">All slots covered</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Weekly Working Hours</span>
+              <div class="stat-icon purple">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+              </div>
+            </div>
+            <div class="stat-value" id="dash-total-hours">448 hrs</div>
+            <div class="stat-subtext" id="dash-avg-hours">Avg 37.3 hrs / emp</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Scheduling Efficiency</span>
+              <div class="stat-icon cyan">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+              </div>
+            </div>
+            <div class="stat-value" id="dash-efficiency">96.8%</div>
+            <div class="stat-subtext">Preferences & fairness score</div>
+          </div>
+        </div>
+
+        <!-- Charts and Activity Grid -->
+        <div class="dashboard-grid">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Weekly Working Hours Distribution</h3>
+                <p class="card-subtitle">Hours assigned per employee against target caps</p>
+              </div>
+            </div>
+            <div style="height: 280px; position: relative;">
+              <canvas id="chart-hours-distribution"></canvas>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Shift Coverage</h3>
+                <p class="card-subtitle">Filled vs unfilled required shift slots</p>
+              </div>
+            </div>
+            <div style="height: 280px; position: relative;">
+              <canvas id="chart-shift-coverage"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Alerts and Activity Summary -->
+        <div class="dashboard-grid">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                Active Scheduling Alerts & Constraints
+              </h3>
+              <button class="btn btn-secondary btn-sm" onclick="SmartShiftApp.switchView('conflicts')">View All</button>
+            </div>
+            <div id="dash-alerts-list">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Recent Scheduling Activity</h3>
+            </div>
+            <div id="dash-activity-log" style="display: flex; flex-direction: column; gap: 12px; font-size: 13px;">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 2. GENERATE SCHEDULE VIEW ================= -->
+      <section class="view-section" id="view-generate">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg>
+                Intelligent Scheduling Engine
+              </h3>
+              <p class="card-subtitle">Configure heuristic weights, search bounds, and algorithm mode to generate an optimal schedule</p>
+            </div>
+          </div>
+
+          <div class="form-row" style="margin-bottom: 20px;">
+            <div class="form-group">
+              <label class="form-label" for="gen-mode-select">Scheduling Algorithm Mode</label>
+              <select class="form-control" id="gen-mode-select">
+                <option value="greedy">Mode 1: Greedy (Fast, immediate suitability scores)</option>
+                <option value="backtracking">Mode 2: Backtracking (Systematic search, explores alternatives)</option>
+                <option value="hybrid" selected>Mode 3: Hybrid Optimization (Greedy + Backtracking for difficult slots)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="gen-objective-select">Optimization Objective</label>
+              <select class="form-control" id="gen-objective-select">
+                <option value="coverage" selected>Maximize Shift Coverage (Primary: 0 unfilled slots)</option>
+                <option value="fairness">Balance Weekly Working Hours (Fairness across team)</option>
+                <option value="preferences">Respect Employee Preferences (Day/Night preferences)</option>
+                <option value="overtime">Minimize Overtime & Consecutive Fatigue</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="gen-node-limit">Search Node Limit <small>(Backtracking bound)</small></label>
+              <input type="number" class="form-control" id="gen-node-limit" min="100" max="25000" step="100" value="3000">
+            </div>
+          </div>
+
+          <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 16px; margin-bottom: 20px;">
+            <div style="font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text-main);">Selected Objective & Constraint Overview:</div>
+            <p id="gen-objective-description" style="font-size: 13px; color: var(--text-muted); line-height: 1.5;">
+              Maximizes total filled shift slots while enforcing hard constraints: employee availability, maximum 40 hrs/week, maximum 8 hrs/day, 12-hour minimum rest period between shifts, and required role/skill sets.
+            </p>
+            <div style="margin-top: 8px; font-size: 11px; color: #94a3b8;">
+              <em>Note: When the search node limit is reached, the engine preserves the best feasible schedule evaluated so far.</em>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <button class="btn btn-primary btn-lg" id="btn-run-schedule">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              Execute Scheduling Algorithm
+            </button>
+            <button class="btn btn-secondary btn-lg" id="btn-cancel-schedule" style="display: none;">
+              Cancel Search
+            </button>
+            <div id="gen-progress-indicator" style="display: none; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--primary);">
+              <span class="spinner" style="display:inline-block; width:16px; height:16px; border:2px solid #c7d2fe; border-top-color:#4f46e5; border-radius:50%; animation:spin 0.8s linear infinite;"></span>
+              <span id="gen-progress-text">Evaluating candidate assignments...</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Schedule Mode Comparison Card -->
+        <div class="card" id="comparison-section">
+          <div class="card-header">
+            <h3 class="card-title">Schedule Comparison Matrix (Greedy vs Backtracking vs Hybrid)</h3>
+            <button class="btn btn-secondary btn-sm" id="btn-run-comparison">Benchmark All 3 Modes</button>
+          </div>
+          <div class="comparison-card" id="comparison-columns-container">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 3. WEEKLY CALENDAR VIEW ================= -->
+      <section class="view-section" id="view-calendar">
+        <div class="calendar-controls-bar">
+          <div class="filter-group">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <button class="btn btn-secondary btn-sm" id="cal-prev-week" title="Previous Week">&larr; Prev</button>
+              <button class="btn btn-secondary btn-sm" id="cal-curr-week">Current Week</button>
+              <button class="btn btn-secondary btn-sm" id="cal-next-week" title="Next Week">Next &rarr;</button>
+            </div>
+            <span style="font-weight: 700; font-size: 14px; margin-left: 8px;" id="cal-week-label">Week 1 (Mon Oct 05 – Sun Oct 11, 2026)</span>
+          </div>
+
+          <div class="filter-group">
+            <select class="form-control" id="cal-filter-role" style="width: 150px; font-size: 12px; padding: 6px 10px;">
+              <option value="all">All Roles</option>
+            </select>
+            <select class="form-control" id="cal-filter-shift" style="width: 150px; font-size: 12px; padding: 6px 10px;">
+              <option value="all">All Shifts</option>
+              <option value="Morning Shift">Morning (06:00 - 14:00)</option>
+              <option value="Evening Shift">Evening (14:00 - 22:00)</option>
+              <option value="Night Shift">Night (22:00 - 06:00)</option>
+            </select>
+            <div style="display: flex; border: 1px solid var(--border-color); border-radius: var(--radius-sm); overflow: hidden;">
+              <button class="btn btn-sm active" id="btn-toggle-grid-view" style="border-radius: 0; background: var(--primary); color: #fff;">Calendar Grid</button>
+              <button class="btn btn-sm" id="btn-toggle-table-view" style="border-radius: 0; background: #fff; color: var(--text-main);">Table View</button>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="window.print()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+              Print
+            </button>
+          </div>
+        </div>
+
+        <!-- Shift Color Legend -->
+        <div style="display: flex; gap: 16px; margin-bottom: 12px; font-size: 12px; font-weight: 600; align-items: center;">
+          <span>Shift Legend:</span>
+          <span style="display: flex; align-items: center; gap: 6px;">
+            <span style="width: 12px; height: 12px; border-radius: 3px; background: var(--shift-morning-bg); border: 1px solid var(--shift-morning-border);"></span> Morning (06:00 - 14:00)
+          </span>
+          <span style="display: flex; align-items: center; gap: 6px;">
+            <span style="width: 12px; height: 12px; border-radius: 3px; background: var(--shift-evening-bg); border: 1px solid var(--shift-evening-border);"></span> Evening (14:00 - 22:00)
+          </span>
+          <span style="display: flex; align-items: center; gap: 6px;">
+            <span style="width: 12px; height: 12px; border-radius: 3px; background: var(--shift-night-bg); border: 1px solid var(--shift-night-border);"></span> Night (22:00 - 06:00)
+          </span>
+          <span style="margin-left: auto; color: var(--text-muted); font-size: 11px;">
+            💡 Drag & drop shifts to reassign with automatic real-time constraint validation
+          </span>
+        </div>
+
+        <!-- Calendar Matrix View -->
+        <div id="calendar-matrix-wrapper" class="calendar-matrix-container">
+          <table class="schedule-grid-table">
+            <thead>
+              <tr>
+                <th>Employee / Role</th>
+                <th>Mon <span class="cal-day-num" id="cal-d0"></span></th>
+                <th>Tue <span class="cal-day-num" id="cal-d1"></span></th>
+                <th>Wed <span class="cal-day-num" id="cal-d2"></span></th>
+                <th>Thu <span class="cal-day-num" id="cal-d3"></span></th>
+                <th>Fri <span class="cal-day-num" id="cal-d4"></span></th>
+                <th>Sat <span class="cal-day-num" id="cal-d5"></span></th>
+                <th>Sun <span class="cal-day-num" id="cal-d6"></span></th>
+                <th>Total Hrs</th>
+              </tr>
+            </thead>
+            <tbody id="calendar-grid-body">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Alternative Table View (Hidden by default) -->
+        <div id="calendar-table-wrapper" class="table-responsive" style="display: none; background: #fff; margin-top: 10px;">
+          <table>
+            <thead>
+              <tr>
+                <th>Day & Date</th>
+                <th>Shift Name</th>
+                <th>Hours</th>
+                <th>Assigned Staff</th>
+                <th>Required Skills</th>
+                <th>Coverage Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="schedule-table-body">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ================= 4. EMPLOYEES VIEW ================= -->
+      <section class="view-section" id="view-employees">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Employee Directory</h3>
+              <p class="card-subtitle">Manage workforce profiles, roles, skills, and working-hour constraints</p>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <button class="btn btn-secondary btn-sm" id="btn-export-emp-csv">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                Export CSV
+              </button>
+              <label class="btn btn-secondary btn-sm" style="cursor: pointer;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                Import CSV
+                <input type="file" id="emp-csv-input" accept=".csv" style="display: none;">
+              </label>
+              <button class="btn btn-primary btn-sm" id="btn-open-add-emp-modal">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Add Employee
+              </button>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 14px; margin-bottom: 16px; flex-wrap: wrap;">
+            <input type="text" class="form-control" id="emp-search-input" placeholder="Search by employee name or ID..." style="max-width: 320px;">
+            <select class="form-control" id="emp-role-filter" style="max-width: 200px;">
+              <option value="all">All Roles</option>
+            </select>
+            <select class="form-control" id="emp-status-filter" style="max-width: 160px;">
+              <option value="all">All Statuses</option>
+              <option value="Active">Active Only</option>
+              <option value="Inactive">Inactive Only</option>
+            </select>
+          </div>
+
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Employee ID</th>
+                  <th>Full Name</th>
+                  <th>Role</th>
+                  <th>Skills</th>
+                  <th>Max Hrs (Wk / Day)</th>
+                  <th>Preferred Shifts</th>
+                  <th>Rest Req.</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="employee-table-body">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 5. SHIFT MANAGEMENT VIEW ================= -->
+      <section class="view-section" id="view-shifts">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Shift Templates & Requirements</h3>
+              <p class="card-subtitle">Configure daily shift slots, timings, required headcounts, and skill prerequisites</p>
+            </div>
+            <button class="btn btn-primary btn-sm" id="btn-open-add-shift-modal">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              Add Shift Template
+            </button>
+          </div>
+
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Shift ID</th>
+                  <th>Shift Name</th>
+                  <th>Timing</th>
+                  <th>Duration</th>
+                  <th>Staff Required</th>
+                  <th>Required Skills</th>
+                  <th>Required Roles</th>
+                  <th>Priority</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="shift-table-body">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 6. AVAILABILITY CALENDAR VIEW ================= -->
+      <section class="view-section" id="view-availability">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Employee Weekly Availability Matrix</h3>
+              <p class="card-subtitle">Click any cell to cycle status: Available &rarr; Preferred Shift &rarr; Unavailable &rarr; Not Configured</p>
+            </div>
+            <div style="display: flex; gap: 12px; align-items: center; font-size: 12px; font-weight: 600;">
+              <span class="avail-tag available">Available</span>
+              <span class="avail-tag preferred">Preferred</span>
+              <span class="avail-tag unavailable">Unavailable</span>
+              <span class="avail-tag unconfigured">Not Configured</span>
+            </div>
+          </div>
+
+          <div class="avail-grid" id="availability-grid">
+            <!-- Headers and rows rendered dynamically -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 7. CONFLICTS VIEW ================= -->
+      <section class="view-section" id="view-conflicts">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                Conflict Detection & Compliance Log
+              </h3>
+              <p class="card-subtitle">Real-time audit of double-bookings, rest period violations, hour limits, and skill gaps</p>
+            </div>
+            <button class="btn btn-secondary btn-sm" id="btn-revalidate-conflicts">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"></path><path d="M1 20v-6h6"></path><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+              Re-audit All Shifts
+            </button>
+          </div>
+
+          <div id="full-conflicts-list">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 8. ANALYTICS & REPORTS VIEW ================= -->
+      <section class="view-section" id="view-analytics">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Workforce Analytics & Reporting</h3>
+              <p class="card-subtitle">Comprehensive metrics on shift distribution, equity, and compliance</p>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <button class="btn btn-secondary btn-sm" id="btn-export-schedule-csv">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                Export Schedule CSV
+              </button>
+              <button class="btn btn-secondary btn-sm" id="btn-export-workload-csv">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                Export Workload Report CSV
+              </button>
+              <button class="btn btn-primary btn-sm" onclick="window.print()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                Print Schedule
+              </button>
+            </div>
+          </div>
+
+          <!-- Analytics KPI cards -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <span class="stat-label">Total Assigned Hours</span>
+              <div class="stat-value" id="rep-total-hours">448 hrs</div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Average Hours / Employee</span>
+              <div class="stat-value" id="rep-avg-hours">37.3 hrs</div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Total Shifts Assigned</span>
+              <div class="stat-value" id="rep-total-shifts">56 slots</div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Shift Coverage</span>
+              <div class="stat-value" id="rep-coverage-pct">100%</div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Unfilled Shift Count</span>
+              <div class="stat-value" id="rep-unfilled-count">0</div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Overtime Hours</span>
+              <div class="stat-value" id="rep-overtime-hours">0 hrs</div>
+            </div>
+          </div>
+
+          <!-- 4 Chart.js charts -->
+          <div class="dashboard-grid">
+            <div class="card">
+              <h4 class="card-title" style="font-size: 14px; margin-bottom: 12px;">Weekly Employee Working Hours (Target vs Scheduled)</h4>
+              <div style="height: 260px; position: relative;">
+                <canvas id="chart-rep-hours"></canvas>
+              </div>
+            </div>
+
+            <div class="card">
+              <h4 class="card-title" style="font-size: 14px; margin-bottom: 12px;">Overall Shift Coverage Distribution</h4>
+              <div style="height: 260px; position: relative;">
+                <canvas id="chart-rep-coverage"></canvas>
+              </div>
+            </div>
+
+            <div class="card">
+              <h4 class="card-title" style="font-size: 14px; margin-bottom: 12px;">Daily Staffing Requirements vs Actual Coverage</h4>
+              <div style="height: 260px; position: relative;">
+                <canvas id="chart-rep-daily"></canvas>
+              </div>
+            </div>
+
+            <div class="card">
+              <h4 class="card-title" style="font-size: 14px; margin-bottom: 12px;">Workload Breakdown: Day vs Night Shifts</h4>
+              <div style="height: 260px; position: relative;">
+                <canvas id="chart-rep-night-share"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 9. ALGORITHMS DEEP DIVE VIEW ================= -->
+      <section class="view-section" id="view-algorithms">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">How the Scheduling Algorithms Work</h3>
+              <p class="card-subtitle">Formal overview of Greedy, Backtracking, and Hybrid optimization techniques</p>
+            </div>
+          </div>
+
+          <div class="dashboard-grid">
+            <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 18px;">
+              <h4 style="color: var(--primary); font-size: 15px; margin-bottom: 8px;">1. Greedy Algorithm</h4>
+              <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 10px;">
+                At each step, the Greedy algorithm inspects all unfilled shift slots and selects the best locally available employee using a weighted suitability score.
+              </p>
+              <ul style="font-size: 13px; color: var(--text-muted); padding-left: 20px; line-height: 1.6;">
+                <li><strong>Execution Time:</strong> Extremely fast (\(\mathcal{O}(S \cdot E)\)), near instantaneous.</li>
+                <li><strong>Strength:</strong> Quickly generates acceptable schedules for typical unconstrained workforces.</li>
+                <li><strong>Limitation:</strong> Myopic. A greedy choice (e.g. assigning a dual-qualified nurse to a morning triage shift) may rob an evening ICU shift of its only qualified personnel, causing avoidable unfilled slots.</li>
+              </ul>
+            </div>
+
+            <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 18px;">
+              <h4 style="color: var(--secondary); font-size: 15px; margin-bottom: 8px;">2. Backtracking Optimization</h4>
+              <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 10px;">
+                A systematic depth-first recursive search that explores alternative employee assignments. When a hard constraint dead-end occurs, it backtracks and tests the next candidate.
+              </p>
+              <ul style="font-size: 13px; color: var(--text-muted); padding-left: 20px; line-height: 1.6;">
+                <li><strong>Pruning:</strong> Cuts search branches early when current unassigned slots exceed best known schedule.</li>
+                <li><strong>State Restoration:</strong> Automatically restores working hours, rest timers, and shift records.</li>
+                <li><strong>Bounded Search:</strong> Uses a configurable node limit to guarantee responsive execution without infinite hangs.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div style="margin-top: 20px; background: #eef2ff; border: 1px solid #c7d2fe; border-radius: var(--radius-md); padding: 18px;">
+            <h4 style="color: #3730a3; font-size: 15px; margin-bottom: 6px;">3. Hybrid Optimization Engine</h4>
+            <p style="font-size: 13px; color: #4338ca; line-height: 1.6;">
+              Combines the raw speed of Greedy with the depth of bounded Backtracking. The engine constructs a high-quality initial baseline schedule using Greedy heuristic scoring, identifies bottleneck shifts (unfilled or contested slots), and executes targeted Backtracking to resolve conflicting assignments.
+            </p>
+          </div>
+
+          <!-- Interactive 3-Employee 3-Shift Visual Simulation -->
+          <div class="card" style="margin-top: 24px; border: 1px solid var(--border-color);">
+            <div class="card-header">
+              <div>
+                <h4 class="card-title">Interactive Visual Walkthrough: 3 Employees &times; 3 Shifts</h4>
+                <p class="card-subtitle">See how Greedy gets stuck and how Backtracking recovers 100% coverage</p>
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <button class="btn btn-secondary btn-sm" id="btn-sim-prev">Previous Step</button>
+                <button class="btn btn-primary btn-sm" id="btn-sim-next">Next Step &rarr;</button>
+                <button class="btn btn-secondary btn-sm" id="btn-sim-reset">Reset</button>
+              </div>
+            </div>
+
+            <div style="background: #f8fafc; padding: 16px; border-radius: var(--radius-md); margin-bottom: 16px; font-size: 13px;">
+              <strong>Scenario Setup:</strong>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 8px;">
+                <div>
+                  <strong>Staff:</strong>
+                  <div>&bull; <strong>Nurse Alice:</strong> Skills: [General, ICU], Preferred: Morning</div>
+                  <div>&bull; <strong>Nurse Bob:</strong> Skills: [General], Preferred: Morning</div>
+                  <div>&bull; <strong>Nurse Carol:</strong> Skills: [General], Preferred: Evening</div>
+                </div>
+                <div>
+                  <strong>Shifts:</strong>
+                  <div>&bull; <strong>Shift 1 (Morning General):</strong> Needs General</div>
+                  <div>&bull; <strong>Shift 2 (Evening ICU):</strong> Needs ICU <em>(Only Alice has ICU!)</em></div>
+                  <div>&bull; <strong>Shift 3 (Night General):</strong> Needs General</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="algo-step-container" id="algo-sim-steps">
+              <!-- Rendered dynamically step by step -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 10. TEST SUITE VIEW ================= -->
+      <section class="view-section" id="view-tests">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Comprehensive Verification Test Suite</h3>
+              <p class="card-subtitle">Automated unit test execution of all 13 core algorithmic constraint cases</p>
+            </div>
+            <button class="btn btn-primary btn-sm" id="btn-run-all-tests">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              Run All 13 Tests
+            </button>
+          </div>
+
+          <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 18px; padding: 14px 18px; background: #f8fafc; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+            <div>Tests Passed: <strong id="test-summary-pass" style="color: var(--success); font-size: 16px;">13</strong> / 13</div>
+            <div>Status: <span class="badge" style="background: var(--success);">ALL PASSING</span></div>
+            <div style="margin-left: auto; font-size: 12px; color: var(--text-muted);">Execution Engine: In-Memory Algorithmic Harness</div>
+          </div>
+
+          <div id="test-cases-accordion">
+            <!-- 13 Test Case Cards Rendered dynamically -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 11. SETTINGS VIEW ================= -->
+      <section class="view-section" id="view-settings">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">System Settings & Algorithm Parameters</h3>
+              <p class="card-subtitle">Fine-tune working-hour limits, scoring weights, and search limits</p>
+            </div>
+            <button class="btn btn-primary btn-sm" id="btn-save-settings">Save Configuration</button>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="set-max-weekly">Max Weekly Working Hours</label>
+              <input type="number" class="form-control" id="set-max-weekly" min="10" max="60" value="40">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="set-max-daily">Max Daily Working Hours</label>
+              <input type="number" class="form-control" id="set-max-daily" min="4" max="16" value="8">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="set-min-rest">Minimum Rest Between Shifts (Hours)</label>
+              <input type="number" class="form-control" id="set-min-rest" min="4" max="24" value="12">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="set-max-consecutive">Max Consecutive Working Days</label>
+              <input type="number" class="form-control" id="set-max-consecutive" min="2" max="7" value="5">
+            </div>
+          </div>
+
+          <h4 style="font-size: 15px; margin: 20px 0 12px 0; color: var(--text-main); font-weight: 700;">Greedy Algorithm Scoring Weights (Fairness & Suitability)</h4>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="weight-hours">Fewer Assigned Hours Weight <small>(Default: 40)</small></label>
+              <input type="number" class="form-control" id="weight-hours" min="0" max="100" value="40">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="weight-pref">Shift Preference Match Weight <small>(Default: 25)</small></label>
+              <input type="number" class="form-control" id="weight-pref" min="0" max="100" value="25">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="weight-assigned">Lower Assigned Shift Count Weight <small>(Default: 20)</small></label>
+              <input type="number" class="form-control" id="weight-assigned" min="0" max="100" value="20">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="weight-night">Fair Night Shift Distribution Weight <small>(Default: 10)</small></label>
+              <input type="number" class="form-control" id="weight-night" min="0" max="100" value="10">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="weight-continuity">Day Continuity Weight <small>(Default: 5)</small></label>
+              <input type="number" class="form-control" id="weight-continuity" min="0" max="100" value="5">
+            </div>
+          </div>
+
+          <h4 style="font-size: 15px; margin: 20px 0 12px 0; color: var(--text-main); font-weight: 700;">Backtracking & Engine Bounds</h4>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="set-backtracking-limit">Search Node Limit</label>
+              <input type="number" class="form-control" id="set-backtracking-limit" min="200" max="20000" value="3000">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="set-default-objective">Default Optimization Objective</label>
+              <select class="form-control" id="set-default-objective">
+                <option value="coverage">Maximize Shift Coverage</option>
+                <option value="fairness">Balance Weekly Hours</option>
+                <option value="preferences">Respect Preferences</option>
+                <option value="overtime">Minimize Overtime</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<!-- ================= MODALS ================= -->
+
+<!-- Employee Modal -->
+<div class="modal-overlay" id="modal-employee">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 class="modal-title" id="modal-emp-title">Add New Employee</h3>
+      <button class="modal-close" onclick="SmartShiftApp.closeModal('modal-employee')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="form-employee">
+        <input type="hidden" id="emp-edit-id">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="emp-name">Full Name *</label>
+            <input type="text" class="form-control" id="emp-name" required placeholder="e.g. Dr. Sarah Jenkins">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="emp-email">Email Address *</label>
+            <input type="email" class="form-control" id="emp-email" required placeholder="sarah.jenkins@hospital.org">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="emp-phone">Phone Number</label>
+            <input type="text" class="form-control" id="emp-phone" placeholder="(555) 234-5678">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="emp-role">Job Role *</label>
+            <select class="form-control" id="emp-role" required>
+              <option value="Staff Nurse">Staff Nurse</option>
+              <option value="Charge Nurse">Charge Nurse</option>
+              <option value="ICU Specialist">ICU Specialist</option>
+              <option value="Physician">Physician</option>
+              <option value="Triage Coordinator">Triage Coordinator</option>
+              <option value="Medical Assistant">Medical Assistant</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="emp-skills">Skills <small>(Comma-separated, e.g. ICU, Triage, ACLS, BLS)</small></label>
+          <input type="text" class="form-control" id="emp-skills" placeholder="ICU, Triage, ACLS, BLS">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="emp-max-weekly">Max Weekly Hours</label>
+            <input type="number" class="form-control" id="emp-max-weekly" min="10" max="60" value="40" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="emp-max-daily">Max Daily Hours</label>
+            <input type="number" class="form-control" id="emp-max-daily" min="4" max="16" value="8" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="emp-rest">Min Rest (Hours)</label>
+            <input type="number" class="form-control" id="emp-rest" min="4" max="24" value="12" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="emp-pref-shift">Preferred Shift</label>
+            <select class="form-control" id="emp-pref-shift">
+              <option value="Any">Any Shift</option>
+              <option value="Morning Shift">Morning (06:00 - 14:00)</option>
+              <option value="Evening Shift">Evening (14:00 - 22:00)</option>
+              <option value="Night Shift">Night (22:00 - 06:00)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="emp-status">Employment Status</label>
+            <select class="form-control" id="emp-status">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="SmartShiftApp.closeModal('modal-employee')">Cancel</button>
+      <button class="btn btn-primary" id="btn-save-emp">Save Employee</button>
+    </div>
+  </div>
+</div>
+
+<!-- Shift Modal -->
+<div class="modal-overlay" id="modal-shift">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 class="modal-title" id="modal-shift-title">Add Shift Template</h3>
+      <button class="modal-close" onclick="SmartShiftApp.closeModal('modal-shift')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="form-shift">
+        <input type="hidden" id="shift-edit-id">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="shift-name">Shift Name *</label>
+            <input type="text" class="form-control" id="shift-name" required placeholder="e.g. Morning Shift">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="shift-priority">Priority Level</label>
+            <select class="form-control" id="shift-priority">
+              <option value="High">High</option>
+              <option value="Medium" selected>Medium</option>
+              <option value="Low">Low</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="shift-start">Start Time *</label>
+            <input type="time" class="form-control" id="shift-start" required value="06:00">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="shift-end">End Time *</label>
+            <input type="time" class="form-control" id="shift-end" required value="14:00">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="shift-req-count">Required Staff *</label>
+            <input type="number" class="form-control" id="shift-req-count" min="1" max="20" value="3" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="shift-req-skills">Required Skills <small>(Optional, comma-separated)</small></label>
+          <input type="text" class="form-control" id="shift-req-skills" placeholder="e.g. ICU, Triage">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="shift-req-roles">Required Roles <small>(Optional, comma-separated)</small></label>
+          <input type="text" class="form-control" id="shift-req-roles" placeholder="e.g. Charge Nurse, Staff Nurse">
+        </div>
+
+        <div style="font-size: 12px; color: var(--text-muted); background: #f8fafc; padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+          <strong>Overnight Shift Support:</strong> If end time is earlier than start time (e.g. 22:00 to 06:00), the system automatically treats this as spanning midnight (8 hours total) and enforces rest periods on both sides.
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="SmartShiftApp.closeModal('modal-shift')">Cancel</button>
+      <button class="btn btn-primary" id="btn-save-shift">Save Shift</button>
+    </div>
+  </div>
+</div>
+
+<!-- Shift Assignment Detail Modal -->
+<div class="modal-overlay" id="modal-shift-detail">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 class="modal-title" id="modal-detail-title">Shift Assignment Details</h3>
+      <button class="modal-close" onclick="SmartShiftApp.closeModal('modal-shift-detail')">&times;</button>
+    </div>
+    <div class="modal-body" id="modal-detail-body">
+      <!-- Injected dynamically -->
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger btn-sm" id="btn-unassign-slot">Unassign Employee</button>
+      <button class="btn btn-secondary" onclick="SmartShiftApp.closeModal('modal-shift-detail')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toast-container"></div>
+
+<!-- Main Application Logic & Algorithms -->
+<script src="script.js"></script>
+</body>
+</html>
